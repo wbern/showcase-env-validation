@@ -11,7 +11,8 @@ const objectSchema = {
   NEXT_PUBLIC_KEY: joi.string().required(),
 };
 
-// Next.js requires us to spell out every process.env variable for them to work (client-side only)
+// Next.js requires us to spell out every process.env variable
+// for them to work (client-side only)
 const variables = {
   NEXT_PUBLIC_KEY: process.env.NEXT_PUBLIC_KEY,
 };
@@ -20,7 +21,6 @@ const validationSchema = joi
   .object<ClientEnvVariables>(objectSchema)
   .unknown(true);
 
-// Because Next.js requires us to spell out the properties
 const validation = validationSchema.validate(variables);
 
 if (validation.error) {
