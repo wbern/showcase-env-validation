@@ -1,4 +1,4 @@
-import { clientValidatedEnv } from "../config/client-env";
+import { ClientSideVars } from "./components/ClientSideVars";
 import styles from "./page.module.css";
 
 export default async function Home() {
@@ -8,14 +8,7 @@ export default async function Home() {
     <main className={styles.main}>
       <div>
         <h2>Client-side env</h2>
-        <div className={styles.description}>
-          {Object.keys(clientValidatedEnv).map((key) => (
-            <div key={key}>
-              {key}:{" "}
-              {clientValidatedEnv[key as keyof typeof clientValidatedEnv]}
-            </div>
-          ))}
-        </div>
+        <ClientSideVars />
       </div>
       <div>
         <h2>Server data</h2>
@@ -26,11 +19,8 @@ export default async function Home() {
 }
 
 export const getProps = async () => {
-  const { MY_SECRET_KEY } = (await import("../config/server-env"))
-    .serverValidatedEnv;
-
   const result = await (
-    await fetch(`https://www.google.com/search?q=${MY_SECRET_KEY}`)
+    await fetch(`https://www.google.com/search?q=${process.env.MY_SECRET_KEY}`)
   ).text();
 
   return {
